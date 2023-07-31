@@ -1,0 +1,10 @@
+get https://api.spotify.com/v1/me
+Authorization : "Bearer "
+
+###
+get https://api.spotify.com/v1/me/top/artists
+Authorization : "Bearer "
+
+###
+get https://api.spotify.com/v1/users/5cicdo91owv9nugpcy9x5gsr2
+Authorization : "Bearer "
