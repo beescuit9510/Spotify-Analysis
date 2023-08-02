@@ -8,3 +8,12 @@ Authorization : "Bearer "
 ###
 get https://api.spotify.com/v1/users/5cicdo91owv9nugpcy9x5gsr2
 Authorization : "Bearer "
+
+###
+get https://api.spotify.com/v1/me/following/contains?type=user
+
+Authorization : "Bearer BQB0oRTTw3F80F_tfO9YzTpbP8IsOnr_x7sZdHsb2FslFCebl-ZjnHF6zr24tbinmDZRbsFpk1Z2JdEWCJd-O-dGIz1eMpy1ovspRiDvHGrp_fqdV0plnZfI1P24zHBqlmNNk2wqbyEti3NUAtLi4r56X_Mk6GqokZ2TtpZuLsMp1bGF9kzryQNhL8OmwmtEWBLdl692K_oTvXETbd5M4outsVb0LDSgN6Tk5vFZq_zEBNuy7-PoHuQoASePIRYz3C1XFvLtP1U9FdUsHWqEsCQkToJjJJgFebcUfcuZZkDAvcmyLMrBRkYg3DQ7CoDY7oAkXS9x51Rv3Q"
+
+###
+get https://api.spotify.com/v1/me/following?type=artist
+Authorization : "Bearer BQB0oRTTw3F80F_tfO9YzTpbP8IsOnr_x7sZdHsb2FslFCebl-ZjnHF6zr24tbinmDZRbsFpk1Z2JdEWCJd-O-dGIz1eMpy1ovspRiDvHGrp_fqdV0plnZfI1P24zHBqlmNNk2wqbyEti3NUAtLi4r56X_Mk6GqokZ2TtpZuLsMp1bGF9kzryQNhL8OmwmtEWBLdl692K_oTvXETbd5M4outsVb0LDSgN6Tk5vFZq_zEBNuy7-PoHuQoASePIRYz3C1XFvLtP1U9FdUsHWqEsCQkToJjJJgFebcUfcuZZkDAvcmyLMrBRkYg3DQ7CoDY7oAkXS9x51Rv3Q"
