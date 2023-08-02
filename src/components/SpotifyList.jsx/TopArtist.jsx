@@ -56,6 +56,7 @@ export default function TopArtist() {
         timeRange={timeRange}
         handleRange={(val) => {
           setTimeRange(val)
+          setPage(1)
         }}
       />
       <Gallery
