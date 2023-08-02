@@ -3,6 +3,7 @@ import React, { DetailedHTMLProps, ReactNode } from 'react'
 export default function Table<T>({
   columns,
   dataSource,
+  props,
 }: {
   columns: {
     key: string
@@ -14,6 +15,10 @@ export default function Table<T>({
     render: (dataSource: T, index: number) => ReactNode
   }[]
   dataSource: T[]
+  props: DetailedHTMLProps<
+    React.TableHTMLAttributes<HTMLTableElement>,
+    HTMLTableElement
+  >
 }) {
   const renderedHeader = (
     <tr className='text-slate-500'>
@@ -27,15 +32,17 @@ export default function Table<T>({
 
   const renderedBody = dataSource.map((data, index) => {
     return (
-      <tr className='border-b-2' key={index}>
-        {columns.map((column) => column.render(data, index))}
+      <tr className='border-b' key={index}>
+        {columns.map((column) => (
+          <td key={column.key}>{column.render(data, index)}</td>
+        ))}
       </tr>
     )
   })
 
   return (
-    <table className='border shadow'>
-      <thead className='border-b-2 bg-slate-50'>{renderedHeader}</thead>
+    <table className='shadow' {...props}>
+      <thead className='border-b bg-slate-50'>{renderedHeader}</thead>
       <tbody>{renderedBody}</tbody>
     </table>
   )

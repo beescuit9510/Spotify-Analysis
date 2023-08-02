@@ -33,6 +33,7 @@ export default function TopTrack() {
       <Ranges timeRange={timeRange} setTimeRange={setTimeRange} />
       <Gallery
         data={data.items.map((item) => ({
+          id: item.id,
           url: item.external_urls.spotify,
           image: item.album.images[0].url,
         }))}
@@ -45,20 +46,20 @@ export default function TopTrack() {
             label: 'POS.',
             key: 'POSITION',
             render: (item, index) => (
-              <td className='text-gray-500 text-center'>{index + 1}</td>
+              <div className='text-gray-500 text-center w-20'>{index + 1}</div>
             ),
           },
           {
             key: 'img',
             props: { hidden: true },
             render: (item) => (
-              <td className='py-2'>
+              <div className='py-2'>
                 <img
                   className='min-w-[3rem] w-20 cursor-pointer'
                   src={item.album.images[0].url}
                   onClick={() => window.open(item.external_urls.spotify)}
                 />
-              </td>
+              </div>
             ),
           },
           {
@@ -66,7 +67,7 @@ export default function TopTrack() {
             key: 'SONG',
             props: { colSpan: 3 },
             render: (item) => (
-              <td className='px-3'>
+              <div className='px-3'>
                 <div
                   className='cursor-pointer text-sm'
                   onClick={() => window.open(item.external_urls.spotify)}
@@ -75,24 +76,28 @@ export default function TopTrack() {
                 </div>
                 <div className='cursor-pointer text-slate-500 text-xs'>
                   {item.artists.map((artist, index) => (
-                    <a href={artist.external_urls.spotify} target='_blank'>
+                    <a
+                      key={index}
+                      href={artist.external_urls.spotify}
+                      target='_blank'
+                    >
                       {artist.name}
                       {index !== item.artists.length - 1 ? ', ' : ''}
                     </a>
                   ))}
                 </div>
-              </td>
+              </div>
             ),
           },
           {
             key: 'btn',
             props: { hidden: true },
             render: (artist) => (
-              <td className='pr-2'>
+              <div className='pr-2'>
                 <ListenOnSpotifyBtn
                   spotifyLink={artist.external_urls.spotify}
                 />
-              </td>
+              </div>
             ),
           },
         ]}

@@ -17,6 +17,7 @@ const redirectToLoginWithSpotify = async () => {
 }
 
 const storeAccessToken = () => {
+  localStorage.clear()
   const urlParams = new URLSearchParams(window.location.hash)
   localStorage.setItem('access_token', urlParams.get('#access_token') || '')
   localStorage.setItem('expires_in', urlParams.get('expires_in') || '')

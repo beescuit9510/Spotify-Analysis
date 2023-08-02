@@ -13,8 +13,8 @@ export default function ListenOnSpotifyBtn({ spotifyLink }) {
       <div className='flex flex-row justify-center items-center leading-3 text-xs font-light sm:text-medium sm:font-normal'>
         <FaSpotify className='text-2xl' />
         <div>
-          <spa>Listen on </spa>
-          <spa>Spotify</spa>
+          <span>Listen on </span>
+          <span>Spotify</span>
         </div>
       </div>
     </Button>

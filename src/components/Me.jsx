@@ -5,14 +5,15 @@ import SpotifyList from './SpotifyList.jsx'
 import Avatar from './Avatar'
 
 function Me() {
-  const { data } = useQuery({
+  useQuery({
     queryKey: ['me'],
     queryFn: getMe,
     suspense: true,
+    retry: false,
   })
 
   return (
-    <div className='m-5 sm:mx-40 sm:my-10'>
+    <div className='max-w-[700px] p-5 m-auto'>
       <SpotifyList />
     </div>
   )

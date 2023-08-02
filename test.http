@@ -3,7 +3,9 @@ Authorization : "Bearer "
 
 ###
 get https://api.spotify.com/v1/me/top/artists
-Authorization : "Bearer "
+?limit=10
+&offset=1
+Authorization : "Bearer BQCKGf1xC1lbWLIMelM0PF1cJBR6Bv9CZd5iHmQJ-kQ4MTdUqn_k0LJk18J_J-3I6IjsTqHs1V2ipB0FcL4UYENsZY7u9CE8OfI3jJHLuvVdJR4oF4437TU4CkX8XtxOTXbPffa_gEvlwg2fhAKGBrthPt258oLy6tzrFria8mcrms8_QhP66DWZd2FsEwimxG852YwkKX90iY7-PKhKuviL06BhS8xnkZmY9UJdHxGe8X9ws5olocc7h2JgWSKGSaSrjX_JKw2co7-ifF4gkzig2jRAP3b4c-o7xPyFEXktpEiGq-tPo-E1QsEYQ0Uwe7odpxu5D-fGDg"
 
 ###
 get https://api.spotify.com/v1/users/5cicdo91owv9nugpcy9x5gsr2
@@ -12,7 +14,7 @@ Authorization : "Bearer "
 ###
 get https://api.spotify.com/v1/me/following/contains?type=user
 
-Authorization : "Bearer BQB0oRTTw3F80F_tfO9YzTpbP8IsOnr_x7sZdHsb2FslFCebl-ZjnHF6zr24tbinmDZRbsFpk1Z2JdEWCJd-O-dGIz1eMpy1ovspRiDvHGrp_fqdV0plnZfI1P24zHBqlmNNk2wqbyEti3NUAtLi4r56X_Mk6GqokZ2TtpZuLsMp1bGF9kzryQNhL8OmwmtEWBLdl692K_oTvXETbd5M4outsVb0LDSgN6Tk5vFZq_zEBNuy7-PoHuQoASePIRYz3C1XFvLtP1U9FdUsHWqEsCQkToJjJJgFebcUfcuZZkDAvcmyLMrBRkYg3DQ7CoDY7oAkXS9x51Rv3Q"
+Authorization : "Bearer BQCKGf1xC1lbWLIMelM0PF1cJBR6Bv9CZd5iHmQJ-kQ4MTdUqn_k0LJk18J_J-3I6IjsTqHs1V2ipB0FcL4UYENsZY7u9CE8OfI3jJHLuvVdJR4oF4437TU4CkX8XtxOTXbPffa_gEvlwg2fhAKGBrthPt258oLy6tzrFria8mcrms8_QhP66DWZd2FsEwimxG852YwkKX90iY7-PKhKuviL06BhS8xnkZmY9UJdHxGe8X9ws5olocc7h2JgWSKGSaSrjX_JKw2co7-ifF4gkzig2jRAP3b4c-o7xPyFEXktpEiGq-tPo-E1QsEYQ0Uwe7odpxu5D-fGDg"
 
 ###
 get https://api.spotify.com/v1/me/following?type=artist
