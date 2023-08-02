@@ -4,7 +4,7 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { getTop } from '../../apis/spotify'
 import Table from '../Table'
 import Gallery from './Gallery'
@@ -16,10 +16,15 @@ export default function TopArtist() {
   const [timeRange, setTimeRange] = useState('short_term')
   const [page, setPage] = useState(1)
 
-  const { data, hasNextPage, fetchNextPage } = useInfiniteQuery({
+  const {
+    data,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+    isFetchingPreviousPage,
+  } = useInfiniteQuery({
     queryKey: ['topArtists', timeRange],
     queryFn: ({ pageParam = page }) => {
-      setPage(pageParam)
       const offset = pageParam * 10 - 10
       return getTop('artists', {
         limit: 10,
@@ -28,16 +33,22 @@ export default function TopArtist() {
       })
     },
     getNextPageParam: (lastPage) => {
-      if (page * 10 >= lastPage.total) {
-        return false
-      } else {
-        return page + 1
-      }
+      if (page * 10 >= lastPage.total) return false
+
+      return page + 1
     },
     suspense: true,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   })
 
+  useEffect(() => {
+    if (isFetchingNextPage) setPage((prev) => prev + 1)
+    if (isFetchingPreviousPage) setPage(1)
+  }, [isFetchingNextPage, isFetchingPreviousPage])
+
   const list = data.pages.slice(0, page).flatMap((data) => data.items)
+  console.log(data)
 
   const queryClient = useQueryClient()
   const me = queryClient.getQueryData(['me'])
