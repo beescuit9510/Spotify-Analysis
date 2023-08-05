@@ -1,11 +1,13 @@
-import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
-import React, { useEffect, useState } from 'react'
+import { useInfiniteQuery } from '@tanstack/react-query'
+import React, { useState } from 'react'
 import { getTop } from '../../apis/spotify'
-import Table from '../Table'
-import Gallery from './Gallery'
+import Table from '../lib/Table'
+import Gallery from '../lib/Gallery'
 import Ranges from './Ranges'
 import ListenOnSpotifyBtn from './ListenOnSpotifyBtn'
-import Avatar from '../Avatar'
+import MyAvatar from './MyAvatar'
+import { useQueryCachedData } from '../../hooks/useQueryCachedData'
+import Flex from '../lib/Flex'
 
 export default function TopArtist() {
   const [timeRange, setTimeRange] = useState('short_term')
@@ -31,19 +33,11 @@ export default function TopArtist() {
 
   const list = data.pages.slice(0, page + 1).flatMap((data) => data.items)
 
-  const queryClient = useQueryClient()
-  const me = queryClient.getQueryData(['me'])
-  const { display_name: name, images, external_urls } = me
-  const image = images[images.length - 1]
+  const me = useQueryCachedData(['me'])
 
   return (
-    <div className='flex flex-col gap-3'>
-      <Avatar
-        name={name}
-        profileUrl={image.url}
-        userUrl={external_urls.spotify}
-        subhead={'Your Top Artists'}
-      />
+    <Flex className='flex-col items-stretch gap-3 '>
+      <MyAvatar userId={me?.id} />
       <Ranges
         timeRange={timeRange}
         handleRange={(val) => {
@@ -59,7 +53,7 @@ export default function TopArtist() {
         }))}
         limit={3}
       />
-      <div className='flex flex-col'>
+      <Flex className={'flex-col items-stretch'}>
         <Table
           dataSource={list}
           columns={[
@@ -126,9 +120,8 @@ export default function TopArtist() {
           {hasNextPage || page !== data.pageParams.length - 1
             ? 'Show more'
             : 'Show less'}
-          {page}
         </button>
-      </div>
-    </div>
+      </Flex>
+    </Flex>
   )
 }
