@@ -18,15 +18,25 @@ const redirectToLoginWithSpotify = async () => {
 
 const storeAccessToken = () => {
   localStorage.clear()
-  const urlParams = new URLSearchParams(window.location.hash)
-  localStorage.setItem('access_token', urlParams.get('#access_token') || '')
-  localStorage.setItem('expires_in', urlParams.get('expires_in') || '')
-  localStorage.setItem('token_type', urlParams.get('token_type') || '')
+  const { access_token, expires_in, token_type } = getToken()
+  localStorage.setItem('access_token', access_token ?? '')
+  localStorage.setItem('expires_in', expires_in ?? '')
+  localStorage.setItem('token_type', token_type ?? '')
 }
 
-export const handleSpotifyLogin = () => {
-  redirectToLoginWithSpotify()
+export const handleSpotifyLogin = async () => {
+  await redirectToLoginWithSpotify()
   storeAccessToken()
+}
+
+export const handleSpotifyLogout = async () => localStorage.clear()
+
+export const getToken = () => {
+  const urlParams = new URLSearchParams(window.location.hash)
+  const access_token = urlParams.get('#access_token')
+  const expires_in = urlParams.get('expires_in')
+  const token_type = urlParams.get('token_type')
+  return { access_token, expires_in, token_type }
 }
 
 export const getMe = () => http.get('/v1/me')
