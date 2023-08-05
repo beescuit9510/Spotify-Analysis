@@ -1,22 +1,8 @@
-import React, { Suspense } from 'react'
-import { getMe } from '../apis/spotify'
-import { useQuery } from '@tanstack/react-query'
-import SpotifyList from './SpotifyList.jsx'
-import Avatar from './Avatar'
+import React from 'react'
+import { useMeQuery } from '../hooks/useMeQuery'
 
-function Me() {
-  useQuery({
-    queryKey: ['me'],
-    queryFn: getMe,
-    suspense: true,
-    retry: false,
-  })
+export default function Me({ children }) {
+  useMeQuery()
 
-  return (
-    <div className='max-w-[700px] p-5 m-auto'>
-      <SpotifyList />
-    </div>
-  )
+  return <>{children}</>
 }
-
-export default Me
