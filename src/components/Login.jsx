@@ -1,16 +1,20 @@
 import { FaSpotify } from 'react-icons/fa'
-import Button from './Button'
+import Button from './lib/Button'
+import Flex from './lib/Flex'
+import Main from './lib/Main'
 import { handleSpotifyLogin } from '../apis/spotify'
 
 function Login() {
+  const handleLogin = () => handleSpotifyLogin()
+
   return (
     <>
-      <section className='flex justify-center'>
-        <div className='flex flex-col gap-5 m-20'>
+      <Main>
+        <Flex className='flex-col justify-stretch items-stretch gap-3'>
           <div>
-            <h2 className='font-extrabold text-5xl'>Your Spotify Stats</h2>
+            <h2 className='font-bold text-3xl'>Your Spotify Stats</h2>
           </div>
-          <div className=' > text-2xl text-gray-500'>
+          <div className=' >text-lg text-gray-500'>
             <h3>
               Get statistics about your top artists, songs, and genres from
               Spotify.
@@ -20,17 +24,16 @@ function Login() {
           <div>
             <Button
               className={
-                'hover:bg-green-700 text-2xl font-medium text-white bg-green-600 '
+                'text-lg text-white bg-indigo-600  hover:bg-indigo-700 p-2 font-bold'
               }
-              onClick={handleSpotifyLogin}
+              onClick={handleLogin}
             >
               <FaSpotify className='text-2xl' />
               Log in with Spotify
             </Button>
           </div>
-          <div></div>
-        </div>
-      </section>
+        </Flex>
+      </Main>
     </>
   )
 }

@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react'
 import TopArtist from './TopArtist'
 import TopTrack from './TopTrack'
-import { ErrorBoundary } from '../ErrorBoundary'
+import { ErrorBoundary } from '../lib/ErrorBoundary'
 
 function SpotifyList() {
   return (
