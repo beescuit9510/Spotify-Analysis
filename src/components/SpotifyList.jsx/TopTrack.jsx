@@ -1,60 +1,44 @@
-import {
-  useInfiniteQuery,
-  useQuery,
-  useQueryClient,
-} from '@tanstack/react-query'
+import { useInfiniteQuery } from '@tanstack/react-query'
 import React, { useState } from 'react'
 import { getTop } from '../../apis/spotify'
-import Table from '../Table'
-import Gallery from './Gallery'
+import Table from '../lib/Table'
+import Gallery from '../lib/Gallery'
 import Ranges from './Ranges'
 import ListenOnSpotifyBtn from './ListenOnSpotifyBtn'
-import Avatar from '../Avatar'
+import MyAvatar from './MyAvatar'
+import { useQueryCachedData } from '../../hooks/useQueryCachedData'
 
 export default function TopTrack() {
   const [timeRange, setTimeRange] = useState('short_term')
-  const [page, setPage] = useState(1)
+  const [page, setPage] = useState(0)
 
   const { data, hasNextPage, fetchNextPage } = useInfiniteQuery({
     queryKey: ['topTracks', timeRange],
-    queryFn: ({ pageParam = page }) => {
-      setPage(pageParam)
-      const offset = pageParam * 10 - 10
+    queryFn: ({ pageParam = 0 }) => {
       return getTop('tracks', {
         limit: 10,
-        offset: offset,
+        offset: pageParam,
         time_range: timeRange,
       })
     },
     getNextPageParam: (lastPage) => {
-      if (page * 10 >= lastPage.total) {
-        return false
-      } else {
-        return page + 1
-      }
+      if (lastPage.offset + 10 >= lastPage.total) return false
+
+      return lastPage.offset + 10
     },
     suspense: true,
   })
-  const list = data.pages.slice(0, page).flatMap((data) => data.items)
+  const list = data.pages.slice(0, page + 1).flatMap((data) => data.items)
 
-  const queryClient = useQueryClient()
-  const me = queryClient.getQueryData(['me'])
-  const { display_name: name, images, external_urls } = me
-  const image = images[images.length - 1]
-
+  const me = useQueryCachedData(['me'])
   return (
     <div className='flex flex-col gap-3'>
-      <Avatar
-        name={name}
-        profileUrl={image.url}
-        userUrl={external_urls.spotify}
-        subhead={'Your Top Artists'}
-      />
+      <MyAvatar userId={me.id} />
       <Ranges
         timeRange={timeRange}
         handleRange={(val) => {
           setTimeRange(val)
-          setPage(1)
+          setPage(0)
         }}
       />
       <Gallery
@@ -134,11 +118,14 @@ export default function TopTrack() {
         <button
           className='shadow h-10 rounded-b-2xl bg-indigo-50 text-indigo-700 font-medium hover:bg-indigo-100'
           onClick={() => {
-            if (hasNextPage) fetchNextPage()
-            else setPage(1)
+            if (hasNextPage) fetchNextPage() && setPage((prev) => prev + 1)
+            else if (page === data.pageParams.length - 1) setPage(0)
+            else setPage((prev) => prev + 1)
           }}
         >
-          {hasNextPage ? 'Show more' : 'Show less'}
+          {hasNextPage || page !== data.pageParams.length - 1
+            ? 'Show more'
+            : 'Show less'}
         </button>
       </div>
     </div>
