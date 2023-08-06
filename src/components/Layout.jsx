@@ -7,9 +7,7 @@ export default function Layout({ children }) {
   return (
     <>
       <Header />
-      <ErrorBoundary fallback={<Login />}>
-        <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
-      </ErrorBoundary>
+      <ErrorBoundary fallback={<Login />}>{children}</ErrorBoundary>
     </>
   )
 }

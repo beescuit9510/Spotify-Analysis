@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Ranges({ timeRange, handleRange }) {
+export default function Ranges({ timeRange, handleTimeRange }) {
   const timeRanges = [
     { label: 'Last month', value: 'short_term' },
     { label: 'Last 6 months', value: 'medium_term' },
@@ -17,7 +17,7 @@ export default function Ranges({ timeRange, handleRange }) {
               timeRange === range.value ? 'bg-indigo-50 text-indigo-900' : ''
             }`}
             onClick={() => {
-              handleRange(range.value)
+              handleTimeRange(range.value)
             }}
           >
             {range.label}
