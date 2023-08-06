@@ -44,12 +44,17 @@ export const getMe = () => http.get('/v1/me')
 export type TimeRange = 'long_term' | 'medium_term' | 'short_term'
 export type Limit = 0 | 10 | 20 | 30 | 40 | 50
 export type TopParams = {
-  time_range: TimeRange
-  limit: Limit
-  offset: number
+  time_range?: TimeRange
+  limit?: Limit
+  offset?: number
 }
 export const getTop = (type: 'tracks' | 'artists', params: TopParams) =>
   http.get(`/v1/me/top/${type}`, { params })
+
+export const getNext = (
+  url: string,
+  replace: string = 'https://api.spotify.com/'
+) => http.get(url.replace(replace, '/'))
 
 export const getUserProfile = (userId: string) =>
   http.get(`/v1/users/${userId}`)
