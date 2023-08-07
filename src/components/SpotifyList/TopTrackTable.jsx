@@ -3,9 +3,10 @@ import Table from '../lib/Table'
 import ListenOnSpotifyBtn from './ListenOnSpotifyBtn'
 import { useTopQuery } from '../../hooks/useTopQuery'
 import Flex from '../lib/Flex'
+import { CgSpinner } from 'react-icons/cg'
 
 export default function TopTrackTable({ timeRange }) {
-  const { list, handleNext, hasNextPage } = useTopQuery({
+  const { list, handleNext, hasNextPage, query } = useTopQuery({
     type: 'tracks',
     timeRange,
   })
@@ -78,8 +79,17 @@ export default function TopTrackTable({ timeRange }) {
       <button
         className='shadow h-10 rounded-b-2xl bg-indigo-50 text-indigo-700 font-medium hover:bg-indigo-100'
         onClick={handleNext}
+        hidden={!hasNextPage && query.data.pages.length === 1}
       >
-        {hasNextPage ? 'Show more' : 'Show less'}
+        <div className='flex items-center justify-center'>
+          {query.isFetching ? (
+            <CgSpinner className='animate-spin text-2xl mr-1' />
+          ) : hasNextPage ? (
+            'Show more'
+          ) : (
+            'Show less'
+          )}
+        </div>
       </button>
     </Flex>
   )

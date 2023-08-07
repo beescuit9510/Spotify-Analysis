@@ -37,6 +37,7 @@ export const useTopQuery = ({
   }
 
   return {
+    query,
     handleNext,
     hasNextPage: query.hasNextPage || page !== pages.length,
     list: pages
