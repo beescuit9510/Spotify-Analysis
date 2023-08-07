@@ -2,31 +2,12 @@ import React, { Suspense, useState } from 'react'
 import MyAvatar from './MyAvatar'
 import { useQueryCachedData } from '../../hooks/useQueryCachedData'
 import Flex from '../lib/Flex'
-import TopArtistList from './TopArtistList'
-import TopArtistGallery from './TopArtistGallery'
-import Skeleton from '../lib/Skeleton'
+import TopArtistTable from './TopArtistTable'
+import TopGallery from './TopGallery'
 import Ranges from './Ranges'
 import { ErrorBoundary } from '../lib/ErrorBoundary.js'
-
-const TopArtistGalleryFallback = () => {
-  return (
-    <Flex className='gap-3'>
-      {new Array(3).fill(0).map((v, i) => (
-        <Skeleton key={i} className='aspect-square w-[32.5%]' />
-      ))}
-    </Flex>
-  )
-}
-
-const TopArtistListFallback = () => {
-  return (
-    <div>
-      {new Array(17).fill(0).map((v, i) => (
-        <Skeleton key={i}></Skeleton>
-      ))}
-    </div>
-  )
-}
+import GalleryLoadingFallback from '../lib/GalleryLoadingFallback'
+import TableLoadingFallback from '../lib/TableLoadingFallback'
 
 export default function TopArtist() {
   const [timeRange, setTimeRange] = useState('short_term')
@@ -37,8 +18,8 @@ export default function TopArtist() {
       <MyAvatar userId={me?.id} />
 
       <ErrorBoundary fallback={<>ERROR</>}>
-        <Suspense fallback={<TopArtistGalleryFallback />}>
-          <TopArtistGallery timeRange={timeRange} />
+        <Suspense fallback={<GalleryLoadingFallback />}>
+          <TopGallery type={'artists'} timeRange={timeRange} />
         </Suspense>
       </ErrorBoundary>
 
@@ -47,8 +28,8 @@ export default function TopArtist() {
       </ErrorBoundary>
 
       <ErrorBoundary fallback={<>ERROR</>}>
-        <Suspense fallback={<TopArtistListFallback />}>
-          <TopArtistList timeRange={timeRange} />
+        <Suspense fallback={<TableLoadingFallback />}>
+          <TopArtistTable timeRange={timeRange} />
         </Suspense>
       </ErrorBoundary>
     </Flex>

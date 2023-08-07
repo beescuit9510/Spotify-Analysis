@@ -4,7 +4,7 @@ import ListenOnSpotifyBtn from './ListenOnSpotifyBtn'
 import Flex from '../lib/Flex'
 import { useTopQuery } from '../../hooks/useTopQuery'
 
-export default function TopArtistList({ timeRange }) {
+export default function TopArtistTable({ timeRange }) {
   const { list, handleNext, hasNextPage } = useTopQuery({
     type: 'artists',
     timeRange,
