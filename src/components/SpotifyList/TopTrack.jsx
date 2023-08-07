@@ -5,17 +5,15 @@ import TopGallery from './TopGallery'
 import { ErrorBoundary } from '../lib/ErrorBoundary'
 import TopTrackTable from './TopTrackTable'
 import Flex from '../lib/Flex'
-import { useQueryCachedData } from '../../hooks/useQueryCachedData'
 import GalleryLoadingFallback from '../lib/GalleryLoadingFallback'
 import TableLoadingFallback from '../lib/TableLoadingFallback'
 
 export default function TopTrack() {
   const [timeRange, setTimeRange] = useState('short_term')
-  const me = useQueryCachedData(['me'])
 
   return (
     <Flex className='flex-col items-stretch gap-3'>
-      <MyAvatar userId={me?.id} />
+      <MyAvatar subhead={'Your Top Tracks'} />
 
       <ErrorBoundary fallback={<>ERROR</>}>
         <Suspense fallback={<GalleryLoadingFallback />}>

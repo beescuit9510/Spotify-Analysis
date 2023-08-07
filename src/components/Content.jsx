@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import SpotifyList from './SpotifyList.jsx/index.jsx'
+import SpotifyList from './SpotifyList/index.jsx'
 import Main from './lib/Main.jsx'
 import Me from './Me.jsx'
 

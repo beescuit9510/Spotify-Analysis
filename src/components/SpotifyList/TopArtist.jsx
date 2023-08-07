@@ -11,11 +11,10 @@ import TableLoadingFallback from '../lib/TableLoadingFallback'
 
 export default function TopArtist() {
   const [timeRange, setTimeRange] = useState('short_term')
-  const me = useQueryCachedData(['me'])
 
   return (
     <Flex className='flex-col items-stretch gap-3'>
-      <MyAvatar userId={me?.id} />
+      <MyAvatar subhead={'Your Top Artists'} />
 
       <ErrorBoundary fallback={<>ERROR</>}>
         <Suspense fallback={<GalleryLoadingFallback />}>
