@@ -7,14 +7,10 @@ import { AiFillCaretDown, AiFillCaretUp } from 'react-icons/ai'
 import { LuEqual } from 'react-icons/lu'
 
 export default function TopTrackTable({ timeRange }) {
-  const { list, handleNext, hasNextPage, hasNoPages, resetPage } = useTopQuery({
+  const { list, handleNext, hasNextPage, hasNoPages } = useTopQuery({
     type: 'tracks',
     timeRange,
   })
-
-  useEffect(() => {
-    resetPage()
-  }, [timeRange])
 
   return (
     <Flex className={'flex-col '}>

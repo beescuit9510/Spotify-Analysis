@@ -1,6 +1,6 @@
 import { useQueries, useQueryClient } from '@tanstack/react-query'
 import { TimeRange, getNext, getTop } from '../apis/spotify'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export const useTopQuery = ({
   type,
@@ -14,6 +14,10 @@ export const useTopQuery = ({
   const [page, setPage] = useState(defaultPageSize)
   const resetPage = () => setPage(defaultPageSize)
   const ranges = ['short_term', 'medium_term', 'long_term']
+
+  useEffect(() => {
+    resetPage()
+  }, [timeRange])
 
   const queries: any = useQueries({
     queries: ranges.map((timeRange, index) => ({
