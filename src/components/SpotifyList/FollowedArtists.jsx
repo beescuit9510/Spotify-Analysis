@@ -5,7 +5,7 @@ import GalleryLoadingFallback from '../lib/GalleryLoadingFallback'
 export default function FollowedArtists() {
   return (
     <div>
-      <div className='text-2xl font-semibold mb-2'>Followed Artists</div>
+      <div className='text-2xl font-medium mb-2'>Followed Artists</div>
       <Suspense
         fallback={
           <>
