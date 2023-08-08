@@ -7,7 +7,7 @@ export default function Gallery({ data, limit }) {
         <div
           key={item.id}
           className='cursor-pointer w-[32%] bg-slate-500 m-auto'
-          onClick={() => window.open(item.link)}
+          onClick={() => window.open(item.url)}
         >
           <img className='h-full w-full' src={item.image} />
         </div>
