@@ -12,7 +12,7 @@ export default function TopTrack() {
   const [timeRange, setTimeRange] = useState('short_term')
 
   return (
-    <Flex className='flex-col items-stretch gap-3'>
+    <Flex className='flex-col gap-3'>
       <MyAvatar subhead={'Your Top Tracks'} />
 
       <ErrorBoundary fallback={<>ERROR</>}>

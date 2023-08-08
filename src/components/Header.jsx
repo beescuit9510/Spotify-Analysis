@@ -21,9 +21,9 @@ export default function Header() {
     <div className='border-b'>
       <Main className={'py-4'}>
         <Flex className='justify-between'>
-          <Flex className='justify-stretch gap-1'>
+          <Flex className='gap-1'>
             <BsSpotify className='text-4xl text-indigo-600 cursor-pointer' />
-            <Flex className='flex-col items-stretch text-xl  font-medium leading-5 cursor-pointer hidden sm:block'>
+            <Flex className='flex-col text-xl font-medium leading-5 cursor-pointer hidden sm:block'>
               <h1 className='font-bold text-slate-800'>Spotify Analysis</h1>
               <span className='text-xs text-slate-600'>Analyze your music</span>
             </Flex>

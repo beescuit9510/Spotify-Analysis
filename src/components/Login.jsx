@@ -10,7 +10,7 @@ function Login() {
   return (
     <>
       <Main>
-        <Flex className='flex-col justify-stretch items-stretch gap-3'>
+        <Flex className='flex-col gap-3'>
           <div>
             <h2 className='font-bold text-3xl'>Your Spotify Stats</h2>
           </div>

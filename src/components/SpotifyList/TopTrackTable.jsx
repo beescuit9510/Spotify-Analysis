@@ -13,7 +13,7 @@ export default function TopTrackTable({ timeRange }) {
   })
 
   return (
-    <Flex className={'flex-col items-stretch '}>
+    <Flex className={'flex-col '}>
       <Table
         dataSource={list}
         columns={[
@@ -22,7 +22,7 @@ export default function TopTrackTable({ timeRange }) {
             key: 'POSITION',
             render: (item, index) => (
               <div className='text-gray-500 text-center '>
-                <div className='flex items-center justify-center gap-1 sm:px-6 sm:pl-7'>
+                <Flex className='items-center justify-center gap-1 sm:px-6 sm:pl-7'>
                   {index + 1}
                   {item.isDown && (
                     <AiFillCaretDown className=' text-red-500 text-lg' />
@@ -31,7 +31,7 @@ export default function TopTrackTable({ timeRange }) {
                     <AiFillCaretUp className=' text-green-500 text-lg' />
                   )}
                   {item.isStay && <LuEqual className=' text-slate-500' />}
-                </div>
+                </Flex>
               </div>
             ),
           },
