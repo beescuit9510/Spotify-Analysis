@@ -51,6 +51,16 @@ export type TopParams = {
 export const getTop = (type: 'tracks' | 'artists', params: TopParams) =>
   http.get(`/v1/me/top/${type}`, { params })
 
+export type FollowedArtistsParams = {
+  after?: TimeRange
+  limit?: Limit
+}
+
+export const getFollowedArtists = (params: FollowedArtistsParams) =>
+  http.get('/v1/me/following', {
+    params: { ...params, type: 'artist' },
+  })
+
 export const getNext = (
   url: string,
   replace: string = 'https://api.spotify.com/'
