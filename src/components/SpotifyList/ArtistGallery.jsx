@@ -47,9 +47,11 @@ export default function ArtistGallery() {
               <Loading className='text-indigo-500' />
             </div>
           ) : (
-            <div className='text-indigo-700 hover:text-indigo-500 font-medium'>
-              Show more
-            </div>
+            query.hasNextPage && (
+              <div className='text-indigo-700 hover:text-indigo-500 font-medium'>
+                Show more
+              </div>
+            )
           )}
         </div>
       </button>
