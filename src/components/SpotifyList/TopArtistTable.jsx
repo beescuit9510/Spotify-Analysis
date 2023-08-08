@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Table from '../lib/Table'
 import ListenOnSpotifyBtn from './ListenOnSpotifyBtn'
 import Flex from '../lib/Flex'
@@ -7,10 +7,14 @@ import { AiFillCaretDown, AiFillCaretUp } from 'react-icons/ai'
 import { LuEqual } from 'react-icons/lu'
 
 export default function TopArtistTable({ timeRange }) {
-  const { list, handleNext, hasNextPage, hasNoPages } = useTopQuery({
+  const { list, handleNext, hasNextPage, hasNoPages, resetPage } = useTopQuery({
     type: 'artists',
     timeRange,
   })
+
+  useEffect(() => {
+    resetPage()
+  }, [timeRange])
 
   return (
     <>

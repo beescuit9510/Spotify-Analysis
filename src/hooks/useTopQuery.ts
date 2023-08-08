@@ -1,18 +1,22 @@
-import { useQueries } from '@tanstack/react-query'
+import { useQueries, useQueryClient } from '@tanstack/react-query'
 import { TimeRange, getNext, getTop } from '../apis/spotify'
 import { useState } from 'react'
 
 export const useTopQuery = ({
   type,
   timeRange,
+  page: defaultPageSize = 10,
 }: {
   type: 'artists' | 'tracks'
   timeRange: TimeRange
+  page?: number
 }) => {
-  const [page, setPage] = useState(10)
+  const [page, setPage] = useState(defaultPageSize)
+  const resetPage = () => setPage(defaultPageSize)
   const ranges = ['short_term', 'medium_term', 'long_term']
-  const queries = useQueries({
-    queries: ranges.map((timeRange) => ({
+
+  const queries: any = useQueries({
+    queries: ranges.map((timeRange, index) => ({
       queryKey: [type, { timeRange }],
       suspense: true,
       queryFn: () => {
@@ -25,17 +29,12 @@ export const useTopQuery = ({
     })),
   })
 
-  const queriesMap: any = queries.reduce(
-    (prev, query, i) => ({
-      ...prev,
-      [ranges[i]]: query,
-    }),
-    {}
-  )
-  ranges.forEach((range, i) => {
-    if (i === ranges.length - 1) return
-    queriesMap[range].data?.items?.forEach((target: any, newPos: number) => {
-      const originalPos = queriesMap[ranges[i + 1]].data?.items.findIndex(
+  const queryClient = useQueryClient()
+
+  queries.forEach((query: any, i: number) => {
+    if (i === queries.length - 1) return
+    query?.data?.items?.forEach((target: any, newPos: number) => {
+      const originalPos = queries[i + 1]?.data?.items.findIndex(
         (item: any) => target.id === item.id
       )
 
@@ -43,20 +42,25 @@ export const useTopQuery = ({
       target.isUp = originalPos === -1 ? true : originalPos > newPos
       target.isDown = originalPos === -1 ? false : originalPos < newPos
     })
+
+    queryClient.setQueryData([type, { timeRange: ranges[i] }], query.data)
   })
 
-  const hasNextPage = queriesMap[timeRange].data.items.length > page
+  const targetIdx = ranges.findIndex((v) => v === timeRange)
+
+  const hasNextPage = queries[targetIdx].data.items.length > page
 
   const handleNext = () => {
-    if (hasNextPage) setPage(page + 10)
-    else setPage(10)
+    if (hasNextPage) setPage(page + defaultPageSize)
+    else resetPage()
   }
 
   return {
     queries,
     handleNext,
-    hasNoPages: !hasNextPage && page <= 10,
+    hasNoPages: !hasNextPage && page <= defaultPageSize,
     hasNextPage,
-    list: queriesMap[timeRange].data.items.slice(0, page),
+    resetPage,
+    list: queries[targetIdx].data.items.slice(0, page),
   }
 }
