@@ -23,7 +23,9 @@ function Avatar({ userId, subhead }) {
         onClick={handleOpenUser}
       >
         <Skeleton isLoading={isLoading}>
-          <div className='font-medium'>{data?.display_name}</div>
+          <div className='font-medium'>
+            {data?.display_name ?? 'display_name'}
+          </div>
         </Skeleton>
         <Skeleton isLoading={isLoading}>
           <div className='text-xs'>{subhead}</div>
