@@ -1,4 +1,4 @@
-import { useInfiniteQuery } from '@tanstack/react-query'
+import { useQueries } from '@tanstack/react-query'
 import { TimeRange, getNext, getTop } from '../apis/spotify'
 import { useState } from 'react'
 
@@ -9,39 +9,54 @@ export const useTopQuery = ({
   type: 'artists' | 'tracks'
   timeRange: TimeRange
 }) => {
-  const [page, setPage] = useState(1)
-  const query = useInfiniteQuery({
-    queryKey: [type, { timeRange }],
-    queryFn: ({ pageParam }) => {
-      if (pageParam) return getNext(pageParam)
-      else
+  const [page, setPage] = useState(10)
+  const ranges = ['short_term', 'medium_term', 'long_term']
+  const queries = useQueries({
+    queries: ranges.map((timeRange) => ({
+      queryKey: [type, { timeRange }],
+      suspense: true,
+      queryFn: () => {
         return getTop(type, {
-          limit: 10,
-          time_range: timeRange,
+          limit: 50,
+          offset: 0,
+          time_range: timeRange as TimeRange,
         })
-    },
-    getNextPageParam: (lastPage: any) => {
-      if (lastPage.next) return lastPage.next
-      else return false
-    },
-    suspense: true,
+      },
+    })),
   })
 
-  const { data } = query
-  const { pages } = data as any
+  const queriesMap: any = queries.reduce(
+    (prev, query, i) => ({
+      ...prev,
+      [ranges[i]]: query,
+    }),
+    {}
+  )
+  ranges.forEach((range, i) => {
+    if (i === ranges.length - 1) return
+    queriesMap[range].data?.items?.forEach((target: any, newPos: number) => {
+      const originalPos = queriesMap[ranges[i + 1]].data?.items.findIndex(
+        (item: any) => target.id === item.id
+      )
+
+      target.isStay = newPos === originalPos
+      target.isUp = originalPos === -1 ? true : originalPos > newPos
+      target.isDown = originalPos === -1 ? false : originalPos < newPos
+    })
+  })
+
+  const hasNextPage = queriesMap[timeRange].data.items.length > page
 
   const handleNext = () => {
-    if (query.hasNextPage) query.fetchNextPage()
-    if (page === pages.length) setPage(1)
-    else setPage((prev) => prev + 1)
+    if (hasNextPage) setPage(page + 10)
+    else setPage(10)
   }
 
   return {
-    query,
+    queries,
     handleNext,
-    hasNextPage: query.hasNextPage || page !== pages.length,
-    list: pages
-      ?.slice(0, query.hasNextPage ? pages.length : page)
-      .flatMap((data: any) => data.items),
+    hasNoPages: !hasNextPage && page <= 10,
+    hasNextPage,
+    list: queriesMap[timeRange].data.items.slice(0, page),
   }
 }

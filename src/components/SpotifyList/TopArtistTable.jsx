@@ -3,10 +3,11 @@ import Table from '../lib/Table'
 import ListenOnSpotifyBtn from './ListenOnSpotifyBtn'
 import Flex from '../lib/Flex'
 import { useTopQuery } from '../../hooks/useTopQuery'
-import { CgSpinner } from 'react-icons/cg'
+import { AiFillCaretDown, AiFillCaretUp } from 'react-icons/ai'
+import { LuEqual } from 'react-icons/lu'
 
 export default function TopArtistTable({ timeRange }) {
-  const { list, handleNext, hasNextPage, query } = useTopQuery({
+  const { list, handleNext, hasNextPage, hasNoPages } = useTopQuery({
     type: 'artists',
     timeRange,
   })
@@ -21,8 +22,17 @@ export default function TopArtistTable({ timeRange }) {
               label: 'POS.',
               key: 'POSITION',
               render: (artist, index) => (
-                <div className='text-gray-500 text-center max-w-[6rem]'>
-                  {index + 1}
+                <div className='text-gray-500 text-center '>
+                  <div className='flex items-center justify-center gap-1 sm:px-6 sm:pl-7'>
+                    {index + 1}
+                    {artist.isDown && (
+                      <AiFillCaretDown className=' text-red-500 text-lg' />
+                    )}
+                    {artist.isUp && (
+                      <AiFillCaretUp className=' text-green-500 text-lg' />
+                    )}
+                    {artist.isStay && <LuEqual className=' text-slate-500' />}
+                  </div>
                 </div>
               ),
             },
@@ -30,9 +40,9 @@ export default function TopArtistTable({ timeRange }) {
               key: 'img',
               props: { hidden: true },
               render: (artist) => (
-                <div className='py-2'>
+                <div className='flex-shrink-0 h-12 w-12 sm:h-16 sm:w-16'>
                   <img
-                    className='min-w-[3rem] w-20 cursor-pointer'
+                    className='w-full h-full bg-cover bg-gray-50'
                     src={artist.images[0].url}
                     onClick={() => window.open(artist.external_urls.spotify)}
                   />
@@ -44,7 +54,7 @@ export default function TopArtistTable({ timeRange }) {
               key: 'ARTIST',
               props: { colSpan: 3 },
               render: (artist) => (
-                <div className='px-3 text-sm'>
+                <div className='px-3 text-sm sm:w-80'>
                   <span
                     className='cursor-pointer'
                     onClick={() => window.open(artist.external_urls.spotify)}
@@ -58,7 +68,7 @@ export default function TopArtistTable({ timeRange }) {
               key: 'btn',
               props: { hidden: true },
               render: (artist) => (
-                <div className='pr-2 '>
+                <div className='pr-2 sm:w-10 '>
                   <div className='flex justify-end'>
                     <ListenOnSpotifyBtn
                       spotifyLink={artist.external_urls.spotify}
@@ -72,16 +82,10 @@ export default function TopArtistTable({ timeRange }) {
         <button
           className='shadow h-10 rounded-b-2xl bg-indigo-50 text-indigo-700 font-medium hover:bg-indigo-100'
           onClick={handleNext}
-          hidden={!hasNextPage && query.data.pages.length === 1}
+          hidden={hasNoPages}
         >
           <div className='flex items-center justify-center'>
-            {query.isFetching ? (
-              <CgSpinner className='animate-spin text-2xl mr-1' />
-            ) : hasNextPage ? (
-              'Show more'
-            ) : (
-              'Show less'
-            )}
+            {hasNextPage ? 'Show more' : 'Show less'}
           </div>
         </button>
       </Flex>
