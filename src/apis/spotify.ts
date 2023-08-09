@@ -1,43 +1,56 @@
 import { http } from './http'
 
-const redirectToLoginWithSpotify = async () => {
+export const handleSpotifyLogin = async () => {
+  const popupWidth = 500
+  const popupHeight = 700
+  const left = window.innerWidth / 2 - popupWidth / 2 + window.screenX
+  const top = window.innerHeight / 2 - popupHeight / 2 + window.screenY
+
+  const popup = window.open(
+    '',
+    '_blank',
+    `width=${popupWidth}, height=${popupHeight}, left=${left}, top=${top}`
+  )
+
   const scope =
     'user-read-private user-read-email  ugc-image-upload user-read-playback-state user-modify-playback-state user-read-currently-playing streaming app-remote-control user-read-email user-read-private playlist-read-collaborative playlist-modify-public playlist-read-private playlist-modify-private user-library-modify user-library-read user-top-read user-read-playback-position user-read-recently-played user-follow-read user-follow-modify'
   const client_id = import.meta.env.VITE_SPOTIFY_CLIENT_ID
-  const redirect_uri = window.location.origin
-  const url =
-    `https://accounts.spotify.com/authorize?response_type=token&client_id=${encodeURIComponent(
-      client_id
-    )}&scope=${encodeURIComponent(scope)}&redirect_uri=${encodeURIComponent(
-      redirect_uri
-    )}` as any
-  //todo url += '&state=' + encodeURIComponent(state)
+  const redirect_uri = `${window.location.origin}/redirect-uri`
 
-  window.location = url
-}
+  const popupContent = `
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      const redirectToLoginWithSpotify = async () => {
+        const url =
+          'https://accounts.spotify.com/authorize?response_type=token&client_id=' +
+          encodeURIComponent('${client_id}') +
+          '&scope=' +
+          encodeURIComponent('${scope}') +
+          '&redirect_uri=' +
+          encodeURIComponent('${redirect_uri}')
+        window.location = url
+      }
+      
+      redirectToLoginWithSpotify()
+    </script>
+  </head>
+</html>`
 
-const storeAccessToken = () => {
-  localStorage.clear()
-  const { access_token, expires_in, token_type } = getToken()
-  localStorage.setItem('access_token', access_token ?? '')
-  localStorage.setItem('expires_in', expires_in ?? '')
-  localStorage.setItem('token_type', token_type ?? '')
-}
-
-export const handleSpotifyLogin = async () => {
-  await redirectToLoginWithSpotify()
-  storeAccessToken()
+  const checkPopupLoaded = setInterval(function () {
+    if (
+      popup &&
+      popup.window &&
+      popup.window.document.readyState === 'complete'
+    ) {
+      clearInterval(checkPopupLoaded)
+      popup.document.write(popupContent)
+    }
+  }, 100)
 }
 
 export const handleSpotifyLogout = async () => localStorage.clear()
-
-export const getToken = () => {
-  const urlParams = new URLSearchParams(window.location.hash)
-  const access_token = urlParams.get('#access_token')
-  const expires_in = urlParams.get('expires_in')
-  const token_type = urlParams.get('token_type')
-  return { access_token, expires_in, token_type }
-}
 
 export const getMe = () => http.get('/v1/me')
 
