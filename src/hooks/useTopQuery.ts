@@ -19,6 +19,25 @@ export const useTopQuery = ({
     resetPage()
   }, [timeRange])
 
+  const queryClient = useQueryClient()
+  const data: any = queryClient.getQueryData([type, { timeRange }])
+
+  if (data) {
+    const hasNextPage = data?.items?.length > page
+
+    const handleNext = () => {
+      if (hasNextPage) setPage(page + 10)
+      else setPage(10)
+    }
+
+    return {
+      handleNext,
+      hasNoPages: !hasNextPage && page <= 10,
+      hasNextPage,
+      list: data?.items?.slice(0, page),
+    }
+  }
+
   const queries: any = useQueries({
     queries: ranges.map((timeRange, index) => ({
       queryKey: [type, { timeRange }],
@@ -32,8 +51,6 @@ export const useTopQuery = ({
       },
     })),
   })
-
-  const queryClient = useQueryClient()
 
   queries.forEach((query: any, i: number) => {
     if (i === queries.length - 1) return
