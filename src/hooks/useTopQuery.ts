@@ -1,5 +1,5 @@
 import { useQueries, useQueryClient } from '@tanstack/react-query'
-import { TimeRange, getNext, getTop } from '../apis/spotify'
+import { TimeRange, getTop } from '../apis/spotify'
 import { useEffect, useState } from 'react'
 
 export const useTopQuery = ({
@@ -23,6 +23,28 @@ export const useTopQuery = ({
   const data: any = queryClient.getQueryData([type, { timeRange }])
 
   if (data) {
+    const idx = ranges.findIndex((r) => r === timeRange)
+
+    if (!data.ranked && idx !== ranges.length - 1) {
+      const compare: any = queryClient.getQueryData([
+        type,
+        { timeRange: ranges[idx + 1] },
+      ])
+
+      data?.items?.forEach((target: any, newPos: number) => {
+        const originalPos = compare?.items.findIndex(
+          (item: any) => target.id === item.id
+        )
+
+        target.isStay = newPos === originalPos
+        target.isUp = originalPos === -1 ? true : originalPos > newPos
+        target.isDown = originalPos === -1 ? false : originalPos < newPos
+      })
+
+      data.ranked = true
+      queryClient.setQueryData([type, { timeRange }], data)
+    }
+
     const hasNextPage = data?.items?.length > page
 
     const handleNext = () => {
@@ -50,21 +72,6 @@ export const useTopQuery = ({
         })
       },
     })),
-  })
-
-  queries.forEach((query: any, i: number) => {
-    if (i === queries.length - 1) return
-    query?.data?.items?.forEach((target: any, newPos: number) => {
-      const originalPos = queries[i + 1]?.data?.items.findIndex(
-        (item: any) => target.id === item.id
-      )
-
-      target.isStay = newPos === originalPos
-      target.isUp = originalPos === -1 ? true : originalPos > newPos
-      target.isDown = originalPos === -1 ? false : originalPos < newPos
-    })
-
-    queryClient.setQueryData([type, { timeRange: ranges[i] }], query.data)
   })
 
   const targetIdx = ranges.findIndex((v) => v === timeRange)
