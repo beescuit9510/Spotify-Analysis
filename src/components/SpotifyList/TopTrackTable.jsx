@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Table from '../lib/Table'
 import ListenOnSpotifyBtn from './ListenOnSpotifyBtn'
-import { useTopQuery } from '../../hooks/useTopQuery'
 import Flex from '../lib/Flex'
+import { useTopQuery } from '../../hooks/useTopQuery'
 import { AiFillCaretDown, AiFillCaretUp } from 'react-icons/ai'
 import { LuEqual } from 'react-icons/lu'
 
@@ -13,7 +13,7 @@ export default function TopTrackTable({ timeRange }) {
   })
 
   return (
-    <Flex className={'flex-col '}>
+    <Flex className={'flex-col'}>
       <Table
         dataSource={list}
         columns={[
@@ -21,8 +21,8 @@ export default function TopTrackTable({ timeRange }) {
             label: 'POS.',
             key: 'POSITION',
             render: (item, index) => (
-              <div className='text-gray-500 text-center '>
-                <Flex className='items-center justify-center gap-1 sm:px-6 sm:pl-7'>
+              <div className='text-gray-500 text-center'>
+                <Flex className='items-center justify-center gap-1 sm:p-6'>
                   {index + 1}
                   {item.isDown && (
                     <AiFillCaretDown className=' text-red-500 text-lg' />
@@ -79,7 +79,7 @@ export default function TopTrackTable({ timeRange }) {
             key: 'btn',
             props: { hidden: true },
             render: (artist) => (
-              <div className='pr-2'>
+              <div className='pr-2 hidden sm:block'>
                 <ListenOnSpotifyBtn
                   spotifyLink={artist.external_urls.spotify}
                 />
