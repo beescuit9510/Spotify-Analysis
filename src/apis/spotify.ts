@@ -4,7 +4,7 @@ const redirectToLoginWithSpotify = async () => {
   const scope =
     'user-read-private user-read-email  ugc-image-upload user-read-playback-state user-modify-playback-state user-read-currently-playing streaming app-remote-control user-read-email user-read-private playlist-read-collaborative playlist-modify-public playlist-read-private playlist-modify-private user-library-modify user-library-read user-top-read user-read-playback-position user-read-recently-played user-follow-read user-follow-modify'
   const client_id = import.meta.env.VITE_SPOTIFY_CLIENT_ID
-  const redirect_uri = 'http://localhost:5173/'
+  const redirect_uri = window.location.origin
   const url =
     `https://accounts.spotify.com/authorize?response_type=token&client_id=${encodeURIComponent(
       client_id
@@ -60,6 +60,17 @@ export const getFollowedArtists = (params: FollowedArtistsParams) =>
   http.get('/v1/me/following', {
     params: { ...params, type: 'artist' },
   })
+
+export const getPlaylists = (params: FollowedArtistsParams) =>
+  http.get('/v1/me/playlists')
+
+export const getPlaylistItems = (
+  playlistId: number,
+  params: FollowedArtistsParams
+) => http.get(`/v1/playlists/${playlistId}`)
+
+export const getRecentlyPlayed = (params: FollowedArtistsParams) =>
+  http.get('/v1/me/player/recently-played')
 
 export const getNext = (
   url: string,
