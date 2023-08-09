@@ -17,7 +17,7 @@ export default function Profile({ src, isLoading = true, handleOnClick }) {
           />
         ) : (
           <IoPersonCircleSharp
-            className='text-gray-300 cursor-pointer w-full h-[3.5rem]'
+            className='aspect-square text-gray-300 cursor-pointer h-[3.5rem]'
             onClick={handleOnClick}
           />
         )}
