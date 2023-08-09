@@ -1,21 +1,29 @@
-import React, { Suspense } from 'react'
+import React, { Suspense, useState } from 'react'
 import Main from './lib/Main'
+import Button from './lib/Button'
 import { BsSpotify } from 'react-icons/bs'
 import Flex from './lib/Flex'
 import { handleSpotifyLogin, handleSpotifyLogout } from '../apis/spotify'
 import { useQueryClient } from '@tanstack/react-query'
 import Me from './Me.jsx'
+
 import { ErrorBoundary } from './lib/ErrorBoundary'
 
 export default function Header() {
+  const [isLoading, setIsLoading] = useState(false)
   const client = useQueryClient()
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    setIsLoading(true)
     client.invalidateQueries(['me'])
     handleSpotifyLogout()
+    window.location.reload()
   }
 
-  const handleLogin = () => handleSpotifyLogin()
+  const handleLogin = () => {
+    setIsLoading(true)
+    handleSpotifyLogin()
+  }
 
   return (
     <div className='border-b'>
@@ -29,15 +37,27 @@ export default function Header() {
             </Flex>
           </Flex>
 
-          <button className='text-indigo-600 hover:text-indigo-500 font-medium'>
-            <ErrorBoundary
-              fallback={<div onClick={handleLogin}>See my Stats</div>}
-            >
-              <Me>
-                <div onClick={handleLogout}>Log out</div>
-              </Me>
-            </ErrorBoundary>
-          </button>
+          <ErrorBoundary
+            fallback={
+              <Button
+                className={'text-indigo-600 hover:text-indigo-500 font-medium'}
+                onClick={handleLogin}
+                isLoading={isLoading}
+              >
+                See my Stats
+              </Button>
+            }
+          >
+            <Me>
+              <Button
+                className={'text-indigo-600 hover:text-indigo-500 font-medium'}
+                onClick={handleLogout}
+                isLoading={isLoading}
+              >
+                Log out
+              </Button>
+            </Me>
+          </ErrorBoundary>
         </Flex>
       </Main>
     </div>

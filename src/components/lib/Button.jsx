@@ -1,14 +1,14 @@
 import React from 'react'
+import Loading from './Loading'
+import Flex from './Flex'
 
-const Button = ({ className, children, ...rest }) => {
+const Button = ({ isLoading = false, className, children, ...rest }) => {
   return (
-    <button
-      className={`border rounded-md p-2 px-4 hover:shadow-md flex justify-center items-center gap-2 cursor-pointer ${
-        className ? className : ''
-      }`}
-      {...rest}
-    >
-      {children}
+    <button className={`${className ? className : ''}`} {...rest}>
+      <Flex className='justify-center items-center relative'>
+        <Loading className={`absolute ${isLoading ? '' : 'hidden'}`} />
+        <div className={`${isLoading ? 'invisible' : ''}`}>{children}</div>
+      </Flex>
     </button>
   )
 }

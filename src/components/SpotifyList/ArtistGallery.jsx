@@ -4,6 +4,7 @@ import { getFollowedArtists, getNext } from '../../apis/spotify'
 import Loading from '../lib/Loading'
 import ArtistGalleryItem from './ArtistGalleryItem'
 import Flex from '../lib/Flex'
+import Button from '../lib/Button'
 
 export default function ArtistGallery() {
   const query = useInfiniteQuery({
@@ -34,27 +35,15 @@ export default function ArtistGallery() {
             return <ArtistGalleryItem key={item.id} item={item} />
           })}
       </Flex>
-      <button
-        onClick={() => {
-          if (query.hasNextPage) {
-            query.fetchNextPage()
-          }
-        }}
-      >
-        <div className='flex justify-center items-center'>
-          {query.isFetching ? (
-            <div className='w-6 mr-1'>
-              <Loading className='text-indigo-500' />
-            </div>
-          ) : (
-            query.hasNextPage && (
-              <div className='text-indigo-700 hover:text-indigo-500 font-medium'>
-                Show more
-              </div>
-            )
-          )}
-        </div>
-      </button>
+      {query.hasNextPage && (
+        <Button
+          className={'text-indigo-700 hover:text-indigo-500 font-medium'}
+          onClick={() => query.fetchNextPage()}
+          isLoading={query.isFetching}
+        >
+          Show more
+        </Button>
+      )}
     </Flex>
   )
 }

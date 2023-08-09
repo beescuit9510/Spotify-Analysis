@@ -2,10 +2,16 @@ import { FaSpotify } from 'react-icons/fa'
 import Button from './lib/Button'
 import Flex from './lib/Flex'
 import Main from './lib/Main'
+
 import { handleSpotifyLogin } from '../apis/spotify'
+import { useState } from 'react'
 
 function Login() {
-  const handleLogin = () => handleSpotifyLogin()
+  const [isLoading, setIsLoading] = useState(false)
+  const handleLogin = () => {
+    setIsLoading(true)
+    handleSpotifyLogin()
+  }
 
   return (
     <>
@@ -24,12 +30,15 @@ function Login() {
           <div>
             <Button
               className={
-                'text-lg text-white bg-indigo-600  hover:bg-indigo-700 p-2 font-bold'
+                'border rounded-md p-2 px-4 hover:shadow-md text-lg text-white bg-indigo-600  hover:bg-indigo-700 font-bold'
               }
+              isLoading={isLoading}
               onClick={handleLogin}
             >
-              <FaSpotify className='text-2xl' />
-              Log in with Spotify
+              <Flex className={'justify-center items-center gap-2'}>
+                <FaSpotify />
+                <div>Log in with Spotify</div>
+              </Flex>
             </Button>
           </div>
         </Flex>

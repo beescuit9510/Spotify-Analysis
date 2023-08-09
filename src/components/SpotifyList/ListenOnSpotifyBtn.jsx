@@ -6,7 +6,7 @@ export default function ListenOnSpotifyBtn({ spotifyLink }) {
   return (
     <Button
       className={
-        'hover:shadow-none hover:bg-slate-50 mx-0 my-0 gap-0 py-0.5 px-1 md:gap-1.5 md:py-1 md:px-2 max-w-[6rem]'
+        'border rounded-md hover:shadow-none hover:bg-slate-50 mx-0 my-0 gap-0 py-0.5 px-1 md:gap-1.5 md:py-1 md:px-2 max-w-[6rem]'
       }
       onClick={() => window.open(spotifyLink)}
     >
