@@ -7,7 +7,7 @@ import Flex from '../lib/Flex'
 
 function SpotifyList() {
   return (
-    <Flex className={'flex-col gap-10'}>
+    <Flex className={'flex-col gap-10 mb-14'}>
       <ErrorBoundary fallback={<>ERROR FROM TopArtist</>}>
         <TopArtist />
       </ErrorBoundary>
