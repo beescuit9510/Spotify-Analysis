@@ -66,7 +66,7 @@ export const useTopQuery = ({
       suspense: true,
       queryFn: () => {
         return getTop(type, {
-          limit: 50,
+          limit: 20,
           offset: 0,
           time_range: timeRange as TimeRange,
         })
