@@ -1,9 +1,8 @@
 import React from 'react'
 import Gallery from '../lib/Gallery'
-import { useTopQuery } from '../../hooks/useTopQuery'
 
-export default function TopGallery({ type, timeRange }) {
-  const { list } = useTopQuery({ type, timeRange })
+export default function TopGallery({ query, type, timeRange }) {
+  const { list } = query({ type, timeRange })
 
   return (
     <Gallery

@@ -2,12 +2,11 @@ import React from 'react'
 import Table from '../lib/Table'
 import ListenOnSpotifyBtn from './ListenOnSpotifyBtn'
 import Flex from '../lib/Flex'
-import { useTopQuery } from '../../hooks/useTopQuery'
 import { AiFillCaretDown, AiFillCaretUp } from 'react-icons/ai'
 import { LuEqual } from 'react-icons/lu'
 
-export default function TopArtistTable({ timeRange }) {
-  const { list, handleNext, hasNextPage, hasNoPages } = useTopQuery({
+export default function TopArtistTable({ query, timeRange }) {
+  const { list, handleNext, hasNextPage, hasNoPages } = query({
     type: 'artists',
     timeRange,
   })

@@ -7,9 +7,13 @@ import TopTrackTable from './TopTrackTable'
 import Flex from '../lib/Flex'
 import GalleryLoadingFallback from '../lib/GalleryLoadingFallback'
 import TableLoadingFallback from '../lib/TableLoadingFallback'
+import useTopQueryCachedData from '../../hooks/useTopQueryCachedData'
+import { useTopQuery } from '../../hooks/useTopQuery'
 
 export default function TopTrack() {
   const [timeRange, setTimeRange] = useState('short_term')
+  const data = useTopQueryCachedData('artists', timeRange)
+  const query = data ? useTopQueryCachedData : useTopQuery
 
   return (
     <Flex className='flex-col gap-3'>
@@ -17,7 +21,7 @@ export default function TopTrack() {
 
       <ErrorBoundary fallback={<>ERROR</>}>
         <Suspense fallback={<GalleryLoadingFallback />}>
-          <TopGallery type={'tracks'} timeRange={timeRange} />
+          <TopGallery query={query} type={'tracks'} timeRange={timeRange} />
         </Suspense>
       </ErrorBoundary>
 
@@ -27,7 +31,7 @@ export default function TopTrack() {
 
       <ErrorBoundary fallback={<>ERROR</>}>
         <Suspense fallback={<TableLoadingFallback />}>
-          <TopTrackTable timeRange={timeRange} />
+          <TopTrackTable query={query} timeRange={timeRange} />
         </Suspense>
       </ErrorBoundary>
     </Flex>

@@ -1,6 +1,5 @@
 import React, { Suspense, useState } from 'react'
 import MyAvatar from './MyAvatar'
-import { useQueryCachedData } from '../../hooks/useQueryCachedData'
 import Flex from '../lib/Flex'
 import TopArtistTable from './TopArtistTable'
 import TopGallery from './TopGallery'
@@ -8,9 +7,13 @@ import Ranges from './Ranges'
 import { ErrorBoundary } from '../lib/ErrorBoundary.js'
 import GalleryLoadingFallback from '../lib/GalleryLoadingFallback'
 import TableLoadingFallback from '../lib/TableLoadingFallback'
+import useTopQueryCachedData from '../../hooks/useTopQueryCachedData'
+import { useTopQuery } from '../../hooks/useTopQuery'
 
 export default function TopArtist() {
   const [timeRange, setTimeRange] = useState('short_term')
+  const data = useTopQueryCachedData('artists', timeRange)
+  const query = data ? useTopQueryCachedData : useTopQuery
 
   return (
     <Flex className='flex-col gap-3'>
@@ -18,7 +21,7 @@ export default function TopArtist() {
 
       <ErrorBoundary fallback={<>ERROR</>}>
         <Suspense fallback={<GalleryLoadingFallback />}>
-          <TopGallery type={'artists'} timeRange={timeRange} />
+          <TopGallery query={query} type={'artists'} timeRange={timeRange} />
         </Suspense>
       </ErrorBoundary>
 
@@ -28,7 +31,7 @@ export default function TopArtist() {
 
       <ErrorBoundary fallback={<>ERROR</>}>
         <Suspense fallback={<TableLoadingFallback />}>
-          <TopArtistTable timeRange={timeRange} />
+          <TopArtistTable query={query} timeRange={timeRange} />
         </Suspense>
       </ErrorBoundary>
     </Flex>
