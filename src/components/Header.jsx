@@ -15,7 +15,7 @@ export default function Header() {
 
   const handleLogout = async () => {
     setIsLoading(true)
-    client.invalidateQueries(['me'])
+    client.clear()
     handleSpotifyLogout()
     window.location.reload()
   }
