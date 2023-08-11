@@ -37,13 +37,13 @@
 
 <!-- If you have screenshots you'd like to share, include them here. -->
 <p>
-    <img src="./readme/Screenshot 2023-02-21 at 15.51.14.png"  />
+    <img src="./readme/Screenshot 2023-08-12 at 12.14.22 AM.png"  />
 </p>
 <p>
-    <img src="./readme/Screenshot 2023-02-21 at 15.51.52.png"  />
+    <img src="./readme/Screenshot 2023-08-12 at 12.14.55 AM.png"  />
 </p>
 <p>
-    <img src="./readme/Screenshot 2023-02-21 at 15.52.39.png"  />
+    <img src="./readme/Screenshot 2023-08-12 at 12.17.34 AM.png"  />
 </p>
 
 <!--## Setup-->
