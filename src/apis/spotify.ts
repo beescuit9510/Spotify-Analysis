@@ -85,6 +85,17 @@ export const getPlaylistItems = (
 export const getRecentlyPlayed = (params: FollowedArtistsParams) =>
   http.get('/v1/me/player/recently-played')
 
+export const unfollowArtists = (data: { ids: string[] }) =>
+  http.delete('/v1/me/following', {
+    params: { type: 'artist', ...data },
+  })
+
+export const followArtists = (data: { ids: string[] }) =>
+  http.put({
+    url: '/v1/me/following',
+    config: { params: { type: 'artist', ...data } },
+  })
+
 export const getNext = (
   url: string,
   replace: string = 'https://api.spotify.com/'

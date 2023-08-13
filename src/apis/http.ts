@@ -1,4 +1,4 @@
-import Axios from 'axios'
+import Axios, { AxiosRequestConfig } from 'axios'
 
 const axios = Axios.create({
   baseURL: 'https://api.spotify.com',
@@ -23,5 +23,20 @@ export const http = {
     data?: Request
   ) {
     return axios.post<Response>(url, { data }).then((res) => res.data)
+  },
+
+  delete: function <Response = unknown>(url: string, config = {}) {
+    return axios.delete<Response>(url, config).then((res) => res.data)
+  },
+  put: function put<Request = any, Response = unknown>({
+    url,
+    data,
+    config,
+  }: {
+    url: string
+    data?: Request
+    config?: AxiosRequestConfig<any>
+  }) {
+    return axios.put<Response>(url, data, config).then((res) => res.data)
   },
 }
