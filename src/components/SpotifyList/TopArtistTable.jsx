@@ -40,7 +40,7 @@ export default function TopArtistTable({ query, timeRange }) {
             render: (item) => (
               <div className='flex-shrink-0 h-12 w-12 sm:h-16 sm:w-16'>
                 <img
-                  className='w-full h-full bg-cover bg-gray-50'
+                  className='w-full h-full bg-cover bg-gray-50 cursor-pointer'
                   src={item.images[0].url}
                   onClick={() => window.open(item.external_urls.spotify)}
                 />
