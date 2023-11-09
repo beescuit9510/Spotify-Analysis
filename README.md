@@ -72,9 +72,6 @@
 <!--- Feature to be added 2-->
 
 
-## Contact
-
-This clone project is solely created by me, feel free to contact me!
 
 <!-- Optional -->
 <!-- ## License -->
